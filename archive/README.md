@@ -18,6 +18,10 @@ The lasso archive owns the deformed-domain idea: `phi(w) = w + c2 w^2 + ... + c6
 
 The disc planner and path header are geometry previews. They do not transport a Taylor germ. Branch/sheet/monodromy work is tracked separately in this repository.
 
+## Unit-disc Bergman perturbation
+
+[`bergman-disc/README.md`](bergman-disc/README.md) preserves the mathematics and exact source provenance of the historical normalized Bergman-kernel perturbation. The construction is canonical in the unit-disc Bergman norm, while its pole outside the disc prevents it from serving as an entire whole-plane perturbation for the current `analytic-continuation` explorer.
+
 ## Rendering ownership
 
 Nothing archived here defines the current rendering contract. New Lacunary experiments that need phase portraits should consume reusable rendering preferences from `isomorphismes/wegert`, rather than reviving the old copied palette code in historical snapshots.
