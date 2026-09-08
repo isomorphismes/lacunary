@@ -1,8 +1,11 @@
-"""Pure planning for a disc-by-disc continuation visualization.
+"""Historical disc-by-disc continuation-geometry planner.
 
-Migrated verbatim from isomorphismes/analytic-continuation,
-branch native_convergence_explorer, historical path
-src/analytic_continuation/continuation.py.
+Migrated from ``isomorphismes/analytic-continuation`` branch
+``native_convergence_explorer``.  The original depended on that repository's
+``ComplexFunction`` model; this archive uses a small structural protocol so the
+geometry can be inspected and exercised here without importing the old app.
+
+This is a reveal/geometry planner, not germ transport.
 """
 
 from __future__ import annotations
@@ -10,8 +13,14 @@ from __future__ import annotations
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import Protocol
 
-from .functions import ComplexFunction
+
+class DiscFunction(Protocol):
+    label: str
+    branch_points: Sequence[complex]
+    finite_singularities_complete: bool
+    poles: Sequence[complex]
 
 
 class ContinuationPlanError(ValueError):
@@ -27,15 +36,15 @@ class ContinuationDisc:
 
 
 def plan_continuation_discs(
-    function: ComplexFunction,
+    function: DiscFunction,
     path: Sequence[complex],
 ) -> tuple[ContinuationDisc, ...]:
     """Plan maximal pole-free Taylor discs along ``path``.
 
     This planner verifies only the geometry of a continuation visualization.
     It does not calculate a Taylor germ or use one disc to compute values in
-    the next disc.  The renderer continues to obtain values from the selected
-    closed-form evaluator.
+    the next disc. The historical renderer obtained values from a closed-form
+    evaluator.
     """
 
     if not path:
@@ -45,12 +54,12 @@ def plan_continuation_discs(
         points = ", ".join(_format_complex(point) for point in function.branch_points)
         raise ContinuationPlanError(
             f"{function.label} has branch point(s) at {points}; "
-            "branch tracking would be needed for continuation mode"
+            "branch tracking would be needed for this historical mode"
         )
 
     if not function.finite_singularities_complete:
         raise ContinuationPlanError(
-            f"{function.label} cannot use continuation mode because its finite "
+            f"{function.label} cannot use this disc planner because its finite "
             "singularities are not completely represented"
         )
 
